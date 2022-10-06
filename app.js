@@ -70,6 +70,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(strategy);
 
+// save user data for rendering
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

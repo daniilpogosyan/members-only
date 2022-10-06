@@ -7,8 +7,11 @@ html
   body
     nav.nav.text-bg-light
       a(href="/").nav-link Posts
-      a(href="/login").nav-link Log in
-      a(href="/sign-up").nav-link Sign up
+      if (currentUser)
+        a(href="/logout").nav-link Log out
+      else 
+        a(href="/sign-up").nav-link Sign up
+        a(href="/login").nav-link Log in
     div.container
       block content
 

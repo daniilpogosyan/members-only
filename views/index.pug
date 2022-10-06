@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
+  if (currentUser)
+    h1 Welcome back, #{currentUser.firstName} #{currentUser.lastName}!
+  else
+    h1 Welcome! 
   
