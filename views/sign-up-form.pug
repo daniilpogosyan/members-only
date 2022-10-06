@@ -1,4 +1,5 @@
 extends layout 
+include mixins/error-log.pug
 
 block content 
   h1.mb-5.mt-3= title
@@ -56,4 +57,5 @@ block content
 
     button.btn.btn-outline-primary Submit
 
+  +error-log(errors)
       

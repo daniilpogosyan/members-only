@@ -1,0 +1,5 @@
+mixin error-log(errors)
+  if (errors && errors.length)
+    ul
+      each error in errors
+        li.danger= error.msg
