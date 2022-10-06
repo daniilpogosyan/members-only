@@ -1,0 +1,27 @@
+extends layout 
+
+block content 
+  h1.mb-5.mt-3= title
+  form(action="/login", method="post") 
+    div.form-floating.mb-3
+      input(
+        type="email"
+        name='username'
+        required 
+        placeholder=" "
+      )#email-input.form-control
+      label(for="email-input").form-label Email
+
+    div.form-floating.mb-5
+      input(
+        type="password"
+        name='password'
+        required 
+        maxlength=20
+        minlength=3
+        placeholder=" "
+      )#password-input.form-control
+      label(for="password-input").form-label Password
+
+    button.btn.btn-outline-primary Submit
+    

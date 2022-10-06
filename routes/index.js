@@ -85,4 +85,10 @@ router.post('/sign-up',
   }
 );
 
+router.get('/login', (req, res, next) => {
+  res.render('login-form', {
+    title: 'Log in'
+  });
+});
+
 module.exports = router;
