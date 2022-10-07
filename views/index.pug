@@ -1,8 +1,32 @@
 extends layout
+include mixins/post.pug
+include mixins/error-log.pug
 
 block content
   if (currentUser)
-    h1 Welcome back, #{currentUser.firstName} #{currentUser.lastName}!
+    h1 Welcome back, #{currentUser.firstName} #{currentUser.lastName}!    
+    btn(data-bs-toggle="collapse", data-bs-target="#new-post-container").btn.btn-primary.mb-3 New post
+    div(class=(states && states.showForm)? 'show' : '').collapse#new-post-container
+      form(action="/new-post" method="post").mb-3
+        div.form-floating.mb-2
+          input(
+            type="text",
+            name="title"
+            placeholder="title"
+            value= postTitle || ''
+          )#post-title.form-control
+          label.form-label Title
+        div.form-floating.mb-2
+          textarea(
+            name="body",
+            placeholder="title"
+          )#post-title.form-control= body || ""
+          label.form-label Body
+        button.btn.btn-primary Create
+      +error-log(errors)
   else
     h1 Welcome! 
+  if (Array.isArray(posts))
+    each post in posts
+      +post(post)
   

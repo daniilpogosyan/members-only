@@ -2,6 +2,7 @@ var express = require('express');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const Post = require('../models/post');
 const passport = require('passport');
 
 var router = express.Router();
@@ -10,7 +11,16 @@ const validator = require('../validator');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  Post.find().populate('author', 'firstName lastName').exec((err, posts) => {
+    if (err) {
+      return next(err);
+    }
+    res.render('index', {
+      title: 'Posts',
+      posts
+     });
+  })
+  
 });
 
 // Get Sign up form
@@ -107,4 +117,32 @@ router.post('/join',
   }
 )
 
+router.post('/new-post',
+  validator.post(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render('index', {
+        title: 'Posts',
+        states: { showForm: true },
+        postTitle: req.body.title,
+        body: req.body.body,
+        errors: errors.array()
+      })
+      return;
+    }
+    Post.create({
+      title: req.body.title,
+      body: req.body.body,
+      author: req.user._id
+    }, (err, post) => {
+      if (err) {
+        return next(err);
+      }
+      res.redirect('/');
+    })
+    
+  }
+
+)
 module.exports = router;
