@@ -1,0 +1,16 @@
+extends layout 
+include mixins/error-log.pug
+
+block content 
+  form(action="", method="post") 
+    label.form-label Enter secret password:
+    input.text(
+      name="password"
+      type="text"
+      required 
+      maxlength=20
+      value= password || ""
+    ).form-control
+
+    button.btn.btn-outline-primary.mt-3 Join
+  +error-log(errors)

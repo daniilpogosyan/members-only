@@ -1,5 +1,4 @@
 module.exports = {
-  user: {
-    signup: require('./user-sign-up')
-  }
+  signup: require('./sign-up'),
+  join: require('./join')
 }

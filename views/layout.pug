@@ -15,7 +15,7 @@ html
             if (currentUser)
               li.nav-item
                 a(href="/logout").nav-link Log out
-              if(currentUser.status = 'guest')
+              if(currentUser.status === 'guest')
                 li.nav-item
                   a(href="/join").nav-link.text-primary Join the club
             else 

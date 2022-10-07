@@ -20,7 +20,7 @@ router.get('/sign-up', (req, res, next) => {
 
 // Create user 
 router.post('/sign-up',
-  validator.user.signup(),
+  validator.signup(),
   async (req, res, next) => {
     // get errors occured on validation
     const errors = validationResult(req);
@@ -62,5 +62,49 @@ router.get('/logout', (req, res, next) => {
 
   res.redirect('/');
 })
+
+router.get('/join', (req, res, next) => {
+  if (req.user) {
+    res.render('join-form', {
+      title: 'Join the club'
+    });
+    return;
+  }
+  res.redirect('/login');
+});
+
+router.post('/join',
+  validator.join(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.render('join-form', {
+        title: 'Join the club',
+        password: req.body.password,
+        errors: errors.array()
+      });
+      return;
+    }
+
+    if (req.user) {
+      User
+      .findByIdAndUpdate(req.user.id, { status: 'member' })
+      .exec((err, user) => {
+        if(err) {
+          return next(err)
+        }
+        if (user === null) {
+          const err = new Error('User not found');
+          err.status = 404;
+          return next(err);
+        }
+        res.redirect('/');
+      });
+      return;
+    }
+    res.redirect('/');
+  }
+)
 
 module.exports = router;
