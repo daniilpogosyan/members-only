@@ -18,6 +18,9 @@ html
               if(currentUser.status === 'guest')
                 li.nav-item
                   a(href="/join").nav-link.text-primary Join the club
+              if(currentUser.status === 'member')
+                li.nav-item
+                  a(href="/become-admin").nav-link.text-primary Join admins' circle
             else 
               li.nav-item
                 a(href="/sign-up").nav-link Sign up

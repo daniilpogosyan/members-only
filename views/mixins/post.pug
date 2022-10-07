@@ -1,9 +1,12 @@
 mixin post(post) 
   article.card.mb-4
     .card-body 
+      if (currentUser && currentUser.status === 'admin')
+        form(action="delete-post/" + post.id, method="post") 
+          button.btn.btn-outline-danger.float-end Delete
       h3.card-title= post.title
       p.card-text.mb-1= post.body
-      if (currentUser && currentUser.status === 'member')
+      if (currentUser && (currentUser.status === 'member' || currentUser.status === 'admin'))
         p.fst-italic.text-end.text-primary.mb-1 #{post.author.firstName} #{post.author.lastName}
       p.card-text.text-muted.text-end= post.createdAt.toDateString()
           

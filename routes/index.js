@@ -150,4 +150,59 @@ router.post('/new-post',
   }
 
 )
+
+router.get('/become-admin', (req, res, next) => {
+  res.render('join-form', {
+    title: 'Become admin'
+  })
+});
+
+router.post('/become-admin',
+  validator.becomeAdmin(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.render('join-form', {
+        title: 'Become admin',
+        password: req.body.password,
+        errors: errors.array()
+      })
+      return;
+    }
+    if (req.user) {
+      User
+      .findByIdAndUpdate(req.user.id, { status: 'admin' })
+      .exec((err, user) => {
+        if(err) {
+          return next(err)
+        }
+        if (user === null) {
+          const err = new Error('User not found');
+          err.status = 404;
+          return next(err);
+        }
+        res.redirect('/');
+      });
+      return;
+    }
+    res.redirect('/');
+  }
+)
+
+router.post('/delete-post/:id', (req, res, next) => {
+  if (req.user?.status !== 'admin') {
+    const err = new Error('Permission denied. Cannot delete a post');
+    err.status = 403;
+    return next(err);
+  }
+  Post.findByIdAndDelete(req.params.id, (err) => {
+    if (err) {
+      return next(err)
+    }
+    res.redirect('/');
+  })
+})
+
+
 module.exports = router;

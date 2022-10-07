@@ -5,7 +5,7 @@ include mixins/error-log.pug
 block content
   if (currentUser)
     h1 Welcome back, #{currentUser.firstName} #{currentUser.lastName}!
-    if(currentUser.status === 'member')
+    if(currentUser.status === 'member' || currentUser.status === 'admin')
       btn(data-bs-toggle="collapse", data-bs-target="#new-post-container").btn.btn-primary.mb-3 New post
       div(class=(states && states.showForm)? 'show' : '').collapse#new-post-container
         form(action="/new-post" method="post").mb-3

@@ -1,5 +1,6 @@
 module.exports = {
   signup: require('./sign-up'),
   join: require('./join'),
-  post: require('./post')
+  post: require('./post'),
+  becomeAdmin: require('./becomeAdmin')
 }
