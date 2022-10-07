@@ -120,6 +120,11 @@ router.post('/join',
 router.post('/new-post',
   validator.post(),
   (req, res, next) => {
+    if (req.user.status !== 'member') {
+      const err = new Error('Permission denied. You are not a member of the club.');
+      err.status = 403;
+      return next(err);
+    }
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.render('index', {
